@@ -5,9 +5,6 @@ import io
 import os
 import requests
 import base64
-from torchvision import transforms
-import torchvision.models as models
-from pathlib import Path
 
 from transformers import ViTModel, ViTImageProcessor
 
@@ -18,6 +15,12 @@ import logging
 logging.disable(logging.WARNING)
 
 from collections import defaultdict
+
+
+
+# Change current dir to the execution place
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH_STRUCTURE = 'embeddings/pokemon_embeddings_pkmn.pkl'
 
 
 
@@ -84,9 +87,16 @@ class PokemonSimilarity:
         Returns:
             list: List of dictionaries containing Pokemon embeddings and labels
         """
+        
+        db_path = None
+
         try:
-            root_path = os.path.dirname(os.path.abspath(__file__))
-            db_path = f'{root_path}\embeddings\pokemon_embeddings_pkmn.pkl'
+
+            if os.path.exists(DB_PATH_STRUCTURE):
+                db_path = DB_PATH_STRUCTURE
+
+            if os.path.exists(f'../{DB_PATH_STRUCTURE}'):
+                db_path = f'../{DB_PATH_STRUCTURE}'
             
             with open(db_path, 'rb') as f:
                 # Load the dictionary from the file
@@ -95,7 +105,7 @@ class PokemonSimilarity:
             return embeddings
         
         except Exception as e:
-            print(f'\nError loading embeddings database:\n{e}')
+            raise os.error(f'\nError loading embeddings database:\n{e}')
 
 
 

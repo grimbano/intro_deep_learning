@@ -37,7 +37,7 @@ def main() -> None:
         
         # TODO: Display the results
         # Hint: Format the output nicely with emojis or other visual elements
-        print(f'\n\n🔎 ¡Es un {closest_pokemon_name}! 🎉')
+        print(f'\n\n🎯 The closest Pokemon is: {closest_pokemon_name}')
         
     except Exception as e:
         print(f"❌ Error: {str(e)}", file=sys.stderr)
